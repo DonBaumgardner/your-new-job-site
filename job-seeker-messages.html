@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Job Seeker Messages | Your New Job Site</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f4f7fb;color:#1f2937}.topbar{background:#fff;border-bottom:1px solid #dbe3ee;padding:18px 28px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}.brand{font-size:24px;font-weight:700;color:#1264d8}.btn{border:0;background:#1264d8;color:#fff;padding:11px 17px;border-radius:8px;font-weight:700;cursor:pointer;text-decoration:none;display:inline-block}.btn:hover{background:#0d4fae}.hero{background:linear-gradient(135deg,#1059c7,#1685df);color:#fff;padding:36px 24px}.hero>div,.wrap{max-width:1100px;margin:auto}.hero h1{margin:0 0 8px;font-size:32px}.hero p{margin:0;line-height:1.5}.wrap{padding:28px 18px 90px}.layout{display:grid;grid-template-columns:320px 1fr;gap:20px}.panel{background:#fff;border:1px solid #dfe6ef;border-radius:12px;box-shadow:0 3px 12px rgba(0,0,0,.05);overflow:hidden}.panel h2{font-size:18px;margin:0;padding:18px;border-bottom:1px solid #edf1f5}.conversation{padding:15px 18px;border-bottom:1px solid #edf1f5;cursor:pointer}.conversation:hover,.conversation.active{background:#eef5ff}.conversation strong{display:block;margin-bottom:4px}.conversation span{font-size:13px;color:#64748b}.chat{display:flex;flex-direction:column;min-height:460px}.messages{padding:20px;flex:1}.bubble{max-width:76%;padding:12px 14px;border-radius:12px;margin:0 0 14px;line-height:1.45}.received{background:#edf2f7}.sent{background:#1264d8;color:#fff;margin-left:auto}.composer{border-top:1px solid #edf1f5;padding:15px;display:flex;gap:10px}.composer input{flex:1;padding:12px;border:1px solid #cbd5e1;border-radius:8px}.helper{color:#64748b;font-size:13px;padding:0 18px 16px}.assistantBtn{position:fixed;right:22px;bottom:22px;z-index:20;box-shadow:0 5px 18px rgba(0,0,0,.2)}.assistant{display:none;position:fixed;right:22px;bottom:80px;width:min(360px,calc(100% - 30px));background:#fff;border:1px solid #cbd5e1;border-radius:14px;box-shadow:0 12px 36px rgba(0,0,0,.22);z-index:19;overflow:hidden}.assistant.open{display:block}.assistantHead{background:#1264d8;color:#fff;padding:15px 17px;font-weight:700}.assistantBody{padding:16px;line-height:1.5}.assistantBody button{margin-top:8px;width:100%}@media(max-width:760px){.layout{grid-template-columns:1fr}.hero h1{font-size:27px}.assistantBtn{right:15px;bottom:15px}.assistant{right:15px;bottom:71px}}
+</style>
+</head>
+<body>
+<header class="topbar"><div class="brand">Your New Job Site</div><a class="btn" href="job-seeker-dashboard.html">Job Seeker Dashboard</a></header>
+<section class="hero"><div><h1>Job Seeker Messages</h1><p>Keep your conversations with employers organized in one place.</p></div></section>
+<main class="wrap">
+<div class="layout">
+<section class="panel"><h2>Conversations</h2><div id="conversationList"><div class="conversation active" data-name="Welcome"><strong>Welcome</strong><span>Your messages will appear here.</span></div></div><p class="helper">Employer conversations can be connected here as the site is programmed.</p></section>
+<section class="panel chat"><h2 id="chatTitle">Welcome</h2><div class="messages" id="messages"><div class="bubble received">Your Job Seeker Messages page is ready. Select an employer conversation when messages become available.</div></div><form class="composer" id="composer"><input id="messageInput" type="text" maxlength="500" placeholder="Type a message" aria-label="Message"><button class="btn" type="submit">Send</button></form></section>
+</div>
+</main>
+<button class="btn assistantBtn" id="assistantBtn" type="button" aria-expanded="false" aria-controls="assistantPanel">Messages Assistant</button>
+<aside class="assistant" id="assistantPanel" aria-live="polite"><div class="assistantHead">Messages Assistant</div><div class="assistantBody">I can help you keep employer conversations organized and prepare a professional reply.<button class="btn" type="button" id="replyHelp">Help Me Reply</button><p id="assistantNote"></p></div></aside>
+<script>
+const assistantBtn=document.getElementById('assistantBtn');const assistantPanel=document.getElementById('assistantPanel');assistantBtn.addEventListener('click',()=>{const open=assistantPanel.classList.toggle('open');assistantBtn.setAttribute('aria-expanded',String(open));});document.getElementById('replyHelp').addEventListener('click',()=>{document.getElementById('assistantNote').textContent='Select the employer message you want to answer, then write a short, clear response in the message box.';document.getElementById('messageInput').focus();});document.getElementById('composer').addEventListener('submit',e=>{e.preventDefault();const input=document.getElementById('messageInput');const text=input.value.trim();if(!text)return;const bubble=document.createElement('div');bubble.className='bubble sent';bubble.textContent=text;document.getElementById('messages').appendChild(bubble);input.value='';});
+</script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Saved Jobs | Your New Job Site</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f4f7fb;color:#1f2937}.topbar{background:#fff;border-bottom:1px solid #dbe3ee;padding:18px 28px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}.brand{font-size:24px;font-weight:700;color:#1264d8}.btn{display:inline-block;border:0;background:#1264d8;color:#fff;text-decoration:none;padding:11px 17px;border-radius:8px;font-weight:700;cursor:pointer}.btn:hover{background:#0d4fae}.btn-light{background:#eaf2ff;color:#1264d8}.hero{background:linear-gradient(135deg,#1059c7,#1685df);color:#fff;padding:38px 28px}.hero-inner,.container{max-width:1100px;margin:auto}.hero h1{margin:0 0 9px;font-size:32px}.hero p{margin:0;line-height:1.5}.container{padding:28px 18px 42px}.tools{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px}.search{flex:1;min-width:220px;padding:12px;border:1px solid #cbd5e1;border-radius:8px;font-size:15px}.jobs{display:grid;gap:16px}.job{background:#fff;border:1px solid #dfe6ef;border-radius:12px;padding:20px;box-shadow:0 3px 12px rgba(0,0,0,.05)}.job h2{font-size:19px;margin:0 0 7px;color:#1264d8}.meta{color:#64748b;font-size:14px;margin-bottom:12px}.job p{line-height:1.5;margin:0 0 16px}.actions{display:flex;gap:10px;flex-wrap:wrap}.empty{display:none;background:#fff;border:1px solid #dfe6ef;border-radius:12px;padding:28px;text-align:center;color:#64748b}footer{text-align:center;padding:22px;color:#64748b;font-size:13px}@media(max-width:600px){.topbar{padding:15px}.hero{padding:30px 18px}.hero h1{font-size:27px}.actions .btn{width:100%;text-align:center}}
+</style>
+</head>
+<body>
+<header class="topbar"><div class="brand">Your New Job Site</div><div><a class="btn btn-light" href="job-seeker-dashboard.html">Job Seeker Dashboard</a></div></header>
+<section class="hero"><div class="hero-inner"><h1>Saved Jobs</h1><p>Keep jobs you are interested in together so you can review them and apply when you are ready.</p></div></section>
+<main class="container">
+<div class="tools"><input id="search" class="search" type="search" placeholder="Search saved jobs..." aria-label="Search saved jobs"><a class="btn" href="job-search.html">Find More Jobs</a></div>
+<div id="jobs" class="jobs"></div>
+<div id="empty" class="empty">You do not have any saved jobs yet. Use Job Search to find opportunities and save them here.</div>
+</main>
+<footer>Your New Job Site • Job Seeker Center</footer>
+<script>
+const demo=[
+ {id:1,title:'Construction Project Coordinator',company:'Example Employer',location:'Tampa, FL',summary:'Coordinate project schedules, documentation and communication for active construction projects.'},
+ {id:2,title:'Customer Service Representative',company:'Example Employer',location:'Remote',summary:'Support customers, respond to questions and help keep service requests organized.'}
+];
+const key='ynjs_saved_jobs';
+function load(){try{const x=JSON.parse(localStorage.getItem(key));return Array.isArray(x)?x:demo}catch(e){return demo}}
+let jobs=load();
+if(!localStorage.getItem(key)) localStorage.setItem(key,JSON.stringify(jobs));
+function render(){const q=document.getElementById('search').value.trim().toLowerCase();const list=jobs.filter(j=>`${j.title} ${j.company} ${j.location} ${j.summary}`.toLowerCase().includes(q));const box=document.getElementById('jobs');box.innerHTML='';document.getElementById('empty').style.display=list.length?'none':'block';list.forEach(j=>{const card=document.createElement('article');card.className='job';card.innerHTML=`<h2>${esc(j.title)}</h2><div class="meta">${esc(j.company)} • ${esc(j.location)}</div><p>${esc(j.summary)}</p><div class="actions"><a class="btn" href="job-search.html">View / Apply</a><button class="btn btn-light remove" type="button">Remove Saved Job</button></div>`;card.querySelector('.remove').addEventListener('click',()=>removeJob(j.id));box.appendChild(card)})}
+function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]))}
+function removeJob(id){jobs=jobs.filter(j=>j.id!==id);localStorage.setItem(key,JSON.stringify(jobs));render()}
+document.getElementById('search').addEventListener('input',render);render();
+</script>
+</body>
+</html>

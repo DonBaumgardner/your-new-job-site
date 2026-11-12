@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Professional Resume Builder | Your New Job Site</title>
+  <meta name="description" content="Build, preview, save and print a professional resume.">
+  <link rel="canonical" href="https://yournewjobsite.com/resume-builder.html">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+  <nav class="nav" aria-label="Main navigation">
+    <a class="brand" href="index.html">Your New Job Site</a>
+    <div class="links">
+      <a href="jobs.html">Search Jobs</a>
+      <a href="profile.html">Build Profile</a>
+      <a href="resume-helper.html">Resume Helper</a>
+      <a href="my-resumes.html">My Resumes</a>
+      <a href="saved-jobs.html">Saved Jobs</a>
+      <a href="applications.html">Applications</a>
+      <a class="primary" data-user href="signin.html">Sign In</a>
+    </div>
+  </nav>
+</header>
+<main id="main">
+<section class="section">
+<div class="wrap">
+<h1>Resume Builder</h1>
+<p class="notice">Build your professional resume, save it in this browser, and use Print / Save as PDF for a portable copy.</p>
+<div class="toolbar" style="margin-bottom:16px;">
+  <button class="button primary" id="loadProfile" type="button">Load My Profile</button>
+  <a class="button secondary" href="resume-helper.html">Resume Helper</a>
+  <a class="button secondary" href="my-resumes.html">My Resumes</a>
+</div>
+<div class="grid" style="grid-template-columns:minmax(280px,1fr) minmax(300px,1fr)">
+<form id="resumeForm" class="card">
+<input type="hidden" id="rid">
+<div class="field"><label for="rtitle">Resume name</label><input id="rtitle" required placeholder="Customer Service Resume"></div>
+<div class="field"><label for="rname">Full name</label><input id="rname" required placeholder="Your full name"></div>
+<div class="field"><label for="rcontact">Contact line</label><input id="rcontact" placeholder="email | phone | city, state"></div>
+<div class="field"><label for="rsummary">Professional summary</label><textarea id="rsummary" placeholder="Write a brief professional summary highlighting your experience, strengths and career goals."></textarea></div>
+<div class="field"><label for="rexperience">Experience</label><textarea id="rexperience" placeholder="Job Title | Company | Dates&#10;• Achievement or responsibility&#10;• Achievement or responsibility"></textarea></div>
+<div class="field"><label for="reducation">Education</label><textarea id="reducation" placeholder="School | Degree, diploma or certification | Year"></textarea></div>
+<div class="field"><label for="rskills">Skills</label><textarea id="rskills" placeholder="Enter your professional skills"></textarea></div>
+<div class="toolbar">
+  <button class="button primary" type="submit">Save Resume</button>
+  <button class="button secondary" id="print" type="button">Print / Save PDF</button>
+</div>
+<div id="status" aria-live="polite" style="margin-top:12px;font-weight:700;"></div>
+</form>
+<article class="resume-preview" id="preview" aria-label="Resume preview"></article>
+</div>
+</div>
+</section>
+</main>
+<footer><div class="footer"><div><strong>Your New Job Site</strong><br><span>Move your career forward.</span></div><div><a href="about.html">About</a> · <a href="privacy.html">Privacy</a> · <a href="employers.html">Employers</a><br>© <span data-year></span> Your New Job Site</div></div></footer>
+<script src="app.js"></script>
+<script>
+(function () {
+  const ids = ["rtitle","rname","rcontact","rsummary","rexperience","reducation","rskills"];
+  const preview = document.getElementById("preview");
+  const status = document.getElementById("status");
+  const form = document.getElementById("resumeForm");
+  function value(id) { const el = document.getElementById(id); return el ? el.value.trim() : ""; }
+  function safe(text) { const div = document.createElement("div"); div.textContent = text == null ? "" : String(text); return div.innerHTML; }
+  function withBreaks(text) { return safe(text).replace(/\r?\n/g, "<br>"); }
+  function render() {
+    const name = value("rname") || "Your Name";
+    const contact = value("rcontact") || "Email | Phone | Location";
+    const summary = value("rsummary") || "Your professional summary will appear here.";
+    const experience = value("rexperience") || "Your experience will appear here.";
+    const education = value("reducation") || "Your education will appear here.";
+    const skills = value("rskills") || "Your skills will appear here.";
+    preview.innerHTML = `<h1>${safe(name)}</h1><div class="contact">${safe(contact)}</div><h2>Professional Summary</h2><p>${withBreaks(summary)}</p><h2>Experience</h2><p>${withBreaks(experience)}</p><h2>Education</h2><p>${withBreaks(education)}</p><h2>Skills</h2><p>${withBreaks(skills)}</p>`;
+  }
+  ids.forEach(id => { const el = document.getElementById(id); if (el) el.addEventListener("input", render); });
+  function storeGet(key, fallback) {
+    try { if (typeof STORE !== "undefined" && typeof STORE.get === "function") return STORE.get(key, fallback); } catch (e) { console.error(e); }
+    try { const raw = localStorage.getItem(key); return raw ? JSON.parse(raw) : fallback; } catch (e) { return fallback; }
+  }
+  function storeSet(key, data) {
+    if (typeof STORE !== "undefined" && typeof STORE.set === "function") { STORE.set(key, data); return; }
+    localStorage.setItem(key, JSON.stringify(data));
+  }
+  function loadProfile(showMessage) {
+    const profile = storeGet("ynjs_profile", {}) || {};
+    if (!profile || Object.keys(profile).length === 0) { if (showMessage) status.textContent = "No saved profile was found. Build and save your profile first."; return; }
+    if (profile.name) document.getElementById("rname").value = profile.name;
+    const contactParts = [profile.email, profile.phone, profile.location].filter(Boolean);
+    if (contactParts.length) document.getElementById("rcontact").value = contactParts.join(" | ");
+    if (profile.summary) document.getElementById("rsummary").value = profile.summary;
+    if (profile.skills) document.getElementById("rskills").value = Array.isArray(profile.skills) ? profile.skills.join(", ") : profile.skills;
+    render();
+    if (showMessage) status.textContent = "Profile loaded. You can edit any information before saving your resume.";
+  }
+  document.getElementById("loadProfile").addEventListener("click", () => loadProfile(true));
+  form.addEventListener("submit", function (event) {
+    event.preventDefault();
+    if (!form.checkValidity()) { form.reportValidity(); return; }
+    const resumesRaw = storeGet("ynjs_resumes", []);
+    const resumes = Array.isArray(resumesRaw) ? resumesRaw : [];
+    let id = value("rid") || String(Date.now());
+    const resume = { id, updated: new Date().toLocaleDateString(), rtitle:value("rtitle"), rname:value("rname"), rcontact:value("rcontact"), rsummary:value("rsummary"), rexperience:value("rexperience"), reducation:value("reducation"), rskills:value("rskills") };
+    const existingIndex = resumes.findIndex(item => String(item.id) === String(id));
+    if (existingIndex >= 0) resumes[existingIndex] = resume; else resumes.unshift(resume);
+    try { storeSet("ynjs_resumes", resumes); document.getElementById("rid").value = id; status.textContent = 'Resume saved. Open "My Resumes" to view it.'; render(); }
+    catch (e) { console.error(e); status.textContent = "The resume could not be saved. Please try again."; }
+  });
+  document.getElementById("print").addEventListener("click", () => window.print());
+  loadProfile(false);
+  render();
+})();
+</script>
+</body>
+</html>

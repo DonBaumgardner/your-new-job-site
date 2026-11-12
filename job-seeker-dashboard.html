@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Job Seeker Dashboard | Your New Job Site</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f4f7fb;color:#1f2937}.topbar{background:#fff;border-bottom:1px solid #dbe3ee;padding:18px 30px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}.brand{font-size:25px;font-weight:700;color:#1264d8}.btn{display:inline-block;border:0;background:#1264d8;color:#fff;text-decoration:none;padding:11px 18px;border-radius:8px;font-weight:700;cursor:pointer}.btn:hover{background:#0d4fae}.hero{background:linear-gradient(135deg,#1059c7,#1685df);color:#fff;padding:38px 30px}.hero>div,.container{max-width:1200px;margin:auto}.hero h1{margin:0 0 9px;font-size:34px}.hero p{margin:0;line-height:1.5}.container{padding:28px 20px 80px}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:28px}.stat,.card,.notice{background:#fff;border:1px solid #dfe6ef;border-radius:12px;box-shadow:0 3px 12px rgba(0,0,0,.05)}.stat{padding:20px}.stat small{color:#64748b}.stat strong{display:block;color:#1264d8;font-size:28px;margin-top:8px}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.card{padding:22px;display:flex;flex-direction:column;min-height:195px}.card h2{font-size:19px;margin:0 0 8px}.card p{color:#64748b;line-height:1.5;flex:1}.notice{margin-top:28px;padding:22px}.assistant-btn{position:fixed;right:22px;bottom:22px;border:0;background:#1264d8;color:#fff;padding:13px 18px;border-radius:28px;font-weight:700;box-shadow:0 6px 18px rgba(0,0,0,.22);cursor:pointer;z-index:20}.assistant-panel{position:fixed;right:22px;bottom:82px;width:min(360px,calc(100vw - 30px));background:#fff;border:1px solid #dbe3ee;border-radius:14px;box-shadow:0 12px 35px rgba(0,0,0,.2);padding:18px;display:none;z-index:19}.assistant-panel.open{display:block}.assistant-panel h3{margin:0 0 8px;color:#1264d8}.assistant-panel p{margin:0 0 12px;color:#475569;line-height:1.45}.assistant-panel label{display:block;font-size:13px;font-weight:700;margin-bottom:6px}.assistant-panel textarea{width:100%;min-height:86px;resize:vertical;border:1px solid #cbd5e1;border-radius:8px;padding:10px;font:inherit}.assistant-answer{margin-top:10px;padding:10px;background:#f1f6ff;border-radius:8px;color:#334155;min-height:40px}@media(max-width:850px){.stats{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:580px){.stats,.grid{grid-template-columns:1fr}.topbar,.hero{padding-left:18px;padding-right:18px}}
+</style>
+</head>
+<body>
+<header class="topbar"><div class="brand">Your New Job Site</div><a class="btn" href="yournewjobsite-homepage.html">Home</a></header>
+<section class="hero"><div><h1>Job Seeker Dashboard</h1><p>Manage your resume, applications, saved jobs, profile, messages, and job search from one place.</p></div></section>
+<main class="container">
+<section class="stats"><div class="stat"><small>Applications</small><strong>0</strong></div><div class="stat"><small>Saved Jobs</small><strong>0</strong></div><div class="stat"><small>Saved Resumes</small><strong>0</strong></div><div class="stat"><small>Messages</small><strong>0</strong></div></section>
+<h2>Job Seeker Tools</h2>
+<section class="grid">
+<div class="card"><h2>Resume Builder</h2><p>Create or update your resume for employers and job applications.</p><a class="btn" href="resume-builder.html">Build Resume</a></div>
+<div class="card"><h2>Edit Resume</h2><p>Open your resume editor and make changes to your current resume.</p><a class="btn" href="resume-edit.html">Edit Resume</a></div>
+<div class="card"><h2>Search Jobs</h2><p>Find job openings that match your experience, skills, and location.</p><a class="btn" href="job-search.html">Search Jobs</a></div>
+<div class="card"><h2>My Applications</h2><p>Keep track of the jobs you have applied for and their status.</p><a class="btn" href="my-applications.html">View Applications</a></div>
+<div class="card"><h2>Saved Jobs</h2><p>Return to job openings you saved so you can review or apply later.</p><a class="btn" href="saved-jobs.html">View Saved Jobs</a></div>
+<div class="card"><h2>My Profile</h2><p>Manage your contact information, skills, work preferences, and job-seeker profile.</p><a class="btn" href="job-seeker-profile.html">Open Profile</a></div>
+<div class="card"><h2>Messages</h2><p>View and manage messages related to employers and job opportunities.</p><a class="btn" href="job-seeker-messages.html">Open Messages</a></div>
+</section>
+<section class="notice"><h2>Ready to get started?</h2><p>Complete your profile and resume first, then use Job Search to begin finding opportunities.</p></section>
+</main>
+<section id="jobSeekerAssistant" class="assistant-panel" aria-live="polite"><h3>Job Seeker Assistant</h3><p>Ask for help choosing your next step on the Job Seeker Dashboard.</p><label for="assistantQuestion">What do you need help with?</label><textarea id="assistantQuestion" placeholder="Example: Where should I start?"></textarea><button type="button" class="btn" id="assistantAsk">Ask Assistant</button><div class="assistant-answer" id="assistantAnswer">I can guide you to Resume Builder, Job Search, Applications, Saved Jobs, Profile, or Messages.</div></section>
+<button type="button" class="assistant-btn" id="assistantToggle" aria-expanded="false" aria-controls="jobSeekerAssistant">Job Seeker Assistant</button>
+<script>
+const toggle=document.getElementById('assistantToggle'),panel=document.getElementById('jobSeekerAssistant'),ask=document.getElementById('assistantAsk'),q=document.getElementById('assistantQuestion'),answer=document.getElementById('assistantAnswer');
+toggle.addEventListener('click',()=>{const open=panel.classList.toggle('open');toggle.setAttribute('aria-expanded',String(open));if(open)q.focus();});
+ask.addEventListener('click',()=>{const text=q.value.trim().toLowerCase();if(!text){answer.textContent='Type a question and I will point you to the right section.';return;}if(text.includes('resume'))answer.textContent='Use Resume Builder to create a resume or Edit Resume to update an existing one.';else if(text.includes('apply')||text.includes('application'))answer.textContent='Use Search Jobs to find an opening, then My Applications to track applications.';else if(text.includes('save'))answer.textContent='Open Saved Jobs to review positions you saved.';else if(text.includes('message'))answer.textContent='Open Messages to review employer communications.';else if(text.includes('profile'))answer.textContent='Open My Profile to manage your job-seeker information and work preferences.';else answer.textContent='A good next step is to complete your Profile and Resume, then open Search Jobs.';});
+</script>
+</body>
+</html>

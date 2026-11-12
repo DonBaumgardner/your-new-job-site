@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Job Seeker Settings | Your New Job Site</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#f4f7fb;color:#1f2937}.top{background:#fff;border-bottom:1px solid #dbe3ee;padding:18px 28px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}.brand{font-size:24px;font-weight:700;color:#1264d8}.btn{border:0;border-radius:8px;background:#1264d8;color:white;padding:11px 16px;font-weight:700;text-decoration:none;cursor:pointer}.btn:hover{background:#0d4fae}.hero{background:linear-gradient(135deg,#1059c7,#1685df);color:#fff;padding:36px 28px}.hero>div,.wrap{max-width:900px;margin:auto}.hero h1{margin:0 0 8px}.hero p{margin:0;line-height:1.5}.wrap{padding:28px 18px 90px}.card{background:#fff;border:1px solid #dfe6ef;border-radius:12px;padding:22px;margin-bottom:18px;box-shadow:0 3px 12px rgba(0,0,0,.05)}.card h2{margin-top:0;color:#1264d8}.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.field{display:flex;flex-direction:column;gap:7px;margin-bottom:14px}label{font-weight:700}input,select{padding:11px;border:1px solid #cbd5e1;border-radius:8px;font:inherit}.check{display:flex;gap:10px;align-items:flex-start;margin:12px 0;line-height:1.4}.actions{display:flex;gap:10px;flex-wrap:wrap}.assistant-btn{position:fixed;right:20px;bottom:20px;z-index:5}.assistant{display:none;position:fixed;right:20px;bottom:76px;width:min(340px,calc(100% - 40px));background:#fff;border:2px solid #1264d8;border-radius:12px;padding:18px;box-shadow:0 12px 30px rgba(0,0,0,.2);z-index:4}.assistant.open{display:block}.assistant h3{margin:0 0 9px;color:#1264d8}.assistant p{margin:0;line-height:1.5;color:#475569}.notice{margin-top:12px;color:#177245;font-weight:700;min-height:20px}@media(max-width:650px){.grid{grid-template-columns:1fr}.top,.hero{padding-left:18px;padding-right:18px}}
+</style>
+</head>
+<body>
+<header class="top"><div class="brand">Your New Job Site</div><a class="btn" href="job-seeker-dashboard.html">Return to Dashboard</a></header>
+<section class="hero"><div><h1>Job Seeker Account &amp; Settings</h1><p>Manage your account preferences, contact information, job alerts, and privacy choices.</p></div></section>
+<main class="wrap">
+<form id="settingsForm">
+<section class="card"><h2>Account Information</h2><div class="grid"><div class="field"><label for="name">Full Name</label><input id="name" type="text" autocomplete="name"></div><div class="field"><label for="email">Email Address</label><input id="email" type="email" autocomplete="email"></div><div class="field"><label for="phone">Phone Number</label><input id="phone" type="tel" autocomplete="tel"></div><div class="field"><label for="location">Location</label><input id="location" type="text" placeholder="City, State"></div></div></section>
+<section class="card"><h2>Job Preferences</h2><div class="grid"><div class="field"><label for="workType">Preferred Work Type</label><select id="workType"><option>Any</option><option>Full Time</option><option>Part Time</option><option>Temporary</option><option>Contract</option></select></div><div class="field"><label for="distance">Search Distance</label><select id="distance"><option>25 miles</option><option>50 miles</option><option>100 miles</option><option>Remote / Any Location</option></select></div></div><label class="check"><input id="alerts" type="checkbox"> Email me when new jobs match my preferences.</label></section>
+<section class="card"><h2>Privacy &amp; Communication</h2><label class="check"><input id="searchable" type="checkbox"> Allow employers to find my candidate profile.</label><label class="check"><input id="messages" type="checkbox"> Allow employer messages through Your New Job Site.</label></section>
+<section class="card"><h2>Security</h2><div class="field"><label for="password">New Password</label><input id="password" type="password" autocomplete="new-password" placeholder="Leave blank to keep your current password"></div><div class="actions"><button class="btn" type="submit">Save Settings</button></div><div id="notice" class="notice" aria-live="polite"></div></section>
+</form>
+</main>
+<button id="assistantButton" class="btn assistant-btn" type="button" aria-expanded="false" aria-controls="assistantPanel">Account Assistant</button>
+<aside id="assistantPanel" class="assistant" aria-live="polite"><h3>Account Assistant</h3><p>I can help you understand the settings on this page, including job preferences, alerts, profile visibility, and account information.</p></aside>
+<script>
+const button=document.getElementById('assistantButton');const panel=document.getElementById('assistantPanel');button.addEventListener('click',()=>{const open=panel.classList.toggle('open');button.setAttribute('aria-expanded',String(open));});document.getElementById('settingsForm').addEventListener('submit',e=>{e.preventDefault();document.getElementById('notice').textContent='Settings saved on this page.';});
+</script>
+</body>
+</html>

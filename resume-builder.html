@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resume Builder | Your New Job Site</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f4f7fb;color:#1f2937}header{background:#fff;border-bottom:1px solid #dbe3ee;padding:17px 24px;display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap}.brand{font-size:24px;font-weight:700;color:#1264d8}.nav a,.btn{display:inline-block;background:#1264d8;color:#fff;text-decoration:none;border:0;border-radius:8px;padding:11px 16px;font-weight:700;cursor:pointer}.hero{background:linear-gradient(135deg,#1059c7,#1685df);color:#fff;padding:36px 24px}.hero div{max-width:1050px;margin:auto}.hero h1{margin:0 0 8px;font-size:34px}.hero p{margin:0;line-height:1.5}.wrap{max-width:1050px;margin:26px auto;padding:0 18px 100px}.card{background:#fff;border:1px solid #dfe6ef;border-radius:12px;padding:22px;margin-bottom:18px;box-shadow:0 3px 12px rgba(0,0,0,.05)}.card h2{margin-top:0;color:#1264d8}.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.full{grid-column:1/-1}label{display:block;font-weight:700;font-size:14px;margin-bottom:6px}input,textarea{width:100%;padding:11px;border:1px solid #cdd7e3;border-radius:7px;font:inherit}textarea{min-height:100px;resize:vertical}.actions{display:flex;gap:10px;flex-wrap:wrap}.assistant-btn{position:fixed;right:22px;bottom:22px;z-index:20;border:0;border-radius:999px;background:#1264d8;color:white;padding:14px 19px;font-weight:700;cursor:pointer;box-shadow:0 5px 18px rgba(0,0,0,.22)}.assistant{display:none;position:fixed;right:22px;bottom:82px;z-index:19;width:min(350px,calc(100vw - 30px));background:#fff;border:1px solid #cbd5e1;border-radius:14px;box-shadow:0 9px 30px rgba(0,0,0,.2);overflow:hidden}.assistant.open{display:block}.assistant h3{margin:0;background:#1264d8;color:#fff;padding:15px}.assistant .content{padding:16px;line-height:1.5}.tip{background:#eef5ff;border-radius:8px;padding:10px;margin-top:10px}footer{text-align:center;color:#64748b;padding:25px}@media(max-width:650px){.grid{grid-template-columns:1fr}.full{grid-column:auto}.hero h1{font-size:28px}}
+</style>
+</head>
+<body>
+<header><div class="brand">Your New Job Site</div><nav class="nav"><a href="job-seeker-dashboard.html">Job Seeker Dashboard</a></nav></header>
+<section class="hero"><div><h1>Resume Builder</h1><p>Build and update a professional resume that can be used throughout Your New Job Site.</p></div></section>
+<main class="wrap">
+<form id="resumeForm">
+<section class="card"><h2>Contact Information</h2><div class="grid"><div><label for="name">Full Name</label><input id="name" type="text"></div><div><label for="email">Email</label><input id="email" type="email"></div><div><label for="phone">Phone</label><input id="phone" type="tel"></div><div><label for="location">City / State</label><input id="location" type="text"></div></div></section>
+<section class="card"><h2>Professional Summary</h2><label for="summary">Summary</label><textarea id="summary" placeholder="Briefly describe your experience, strengths, and the type of work you are looking for."></textarea></section>
+<section class="card"><h2>Work Experience</h2><div class="grid"><div><label for="jobTitle">Job Title</label><input id="jobTitle" type="text"></div><div><label for="company">Company</label><input id="company" type="text"></div><div class="full"><label for="experience">Responsibilities and accomplishments</label><textarea id="experience"></textarea></div></div></section>
+<section class="card"><h2>Education & Training</h2><div class="grid"><div><label for="school">School / Training Provider</label><input id="school" type="text"></div><div><label for="credential">Degree / Certificate / Program</label><input id="credential" type="text"></div></div></section>
+<section class="card"><h2>Skills</h2><label for="skills">Skills</label><textarea id="skills" placeholder="Example: Customer service, Microsoft Office, equipment operation, scheduling"></textarea></section>
+<div class="actions"><button class="btn" type="button" id="saveBtn">Save Resume</button><a class="btn" href="resume-edit.html">Open Resume Editor</a></div>
+</form>
+</main>
+<button class="assistant-btn" id="assistantButton" type="button" aria-expanded="false" aria-controls="assistantPanel">Resume Assistant</button>
+<aside class="assistant" id="assistantPanel" aria-live="polite"><h3>Resume Assistant</h3><div class="content">Use the Resume Assistant while you build your resume.<div class="tip" id="assistantTip">Start with clear contact information, then add your strongest recent work experience.</div></div></aside>
+<footer>Your New Job Site</footer>
+<script>
+(function(){
+const button=document.getElementById('assistantButton');const panel=document.getElementById('assistantPanel');
+button.addEventListener('click',function(){const open=panel.classList.toggle('open');button.setAttribute('aria-expanded',String(open));});
+document.getElementById('saveBtn').addEventListener('click',function(){document.getElementById('assistantTip').textContent='Resume information is entered on this page. Full account-connected saving will be wired during site integration.';panel.classList.add('open');button.setAttribute('aria-expanded','true');});
+})();
+</script>
+</body>
+</html>

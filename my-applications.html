@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Applications | Your New Job Site</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f4f7fb;color:#1f2937}.topbar{background:#fff;border-bottom:1px solid #dbe3ee;padding:18px 28px;display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap}.brand{font-size:24px;font-weight:700;color:#1264d8}.btn{display:inline-block;border:0;background:#1264d8;color:#fff;text-decoration:none;padding:11px 17px;border-radius:8px;font-weight:700;cursor:pointer}.btn:hover{background:#0d4fae}.hero{background:linear-gradient(135deg,#1059c7,#1685df);color:#fff;padding:38px 25px}.hero-inner,.container{max-width:1100px;margin:auto}.hero h1{margin:0 0 9px;font-size:32px}.hero p{margin:0;line-height:1.5}.container{padding:28px 18px 90px}.panel{background:#fff;border:1px solid #dfe6ef;border-radius:12px;padding:22px;box-shadow:0 3px 12px rgba(0,0,0,.05)}.application{display:grid;grid-template-columns:1fr auto;gap:18px;padding:18px 0;border-bottom:1px solid #e8edf3}.application:last-child{border-bottom:0}.application h2{font-size:18px;margin:0 0 6px}.meta{color:#64748b;font-size:14px;line-height:1.5}.status{align-self:start;background:#eaf2ff;color:#1264d8;border-radius:999px;padding:7px 12px;font-size:13px;font-weight:700}.empty{color:#64748b;padding:12px 0}.assistant-btn{position:fixed;right:20px;bottom:20px;z-index:20;border:0;border-radius:999px;background:#1264d8;color:#fff;padding:14px 18px;font-weight:700;box-shadow:0 8px 22px rgba(0,0,0,.2);cursor:pointer}.assistant-panel{display:none;position:fixed;right:20px;bottom:82px;width:min(350px,calc(100% - 40px));background:#fff;border:1px solid #cfd9e6;border-radius:14px;box-shadow:0 12px 32px rgba(0,0,0,.18);z-index:19;overflow:hidden}.assistant-panel.open{display:block}.assistant-head{background:#1264d8;color:#fff;padding:14px 16px;font-weight:700}.assistant-body{padding:16px;line-height:1.5}.assistant-body p{margin:0 0 10px}.assistant-body ul{margin:0;padding-left:20px;color:#475569}@media(max-width:600px){.application{grid-template-columns:1fr}.status{justify-self:start}.hero h1{font-size:27px}}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">Your New Job Site</div>
+  <a class="btn" href="job-seeker-dashboard.html">Job Seeker Dashboard</a>
+</header>
+<section class="hero"><div class="hero-inner"><h1>My Applications</h1><p>Keep your submitted job applications organized in one place.</p></div></section>
+<main class="container">
+  <section class="panel">
+    <div id="applicationsList" class="empty">No applications have been saved on this device yet.</div>
+  </section>
+</main>
+<button id="assistantButton" class="assistant-btn" type="button" aria-expanded="false" aria-controls="assistantPanel">Applications Assistant</button>
+<aside id="assistantPanel" class="assistant-panel" aria-live="polite">
+  <div class="assistant-head">Applications Assistant</div>
+  <div class="assistant-body">
+    <p>I can help you work through your applications.</p>
+    <ul><li>Review application status</li><li>Prepare for follow-up</li><li>Return to job search or your dashboard</li></ul>
+  </div>
+</aside>
+<script>
+(function(){
+ const btn=document.getElementById('assistantButton');
+ const panel=document.getElementById('assistantPanel');
+ btn.addEventListener('click',function(){const open=panel.classList.toggle('open');btn.setAttribute('aria-expanded',String(open));});
+ const list=document.getElementById('applicationsList');
+ try{
+   const saved=JSON.parse(localStorage.getItem('ynjsApplications')||'[]');
+   if(Array.isArray(saved)&&saved.length){
+     list.className='';list.innerHTML='';
+     saved.forEach(function(item){
+       const row=document.createElement('div');row.className='application';
+       const left=document.createElement('div');
+       const title=document.createElement('h2');title.textContent=item.jobTitle||'Job Application';
+       const meta=document.createElement('div');meta.className='meta';meta.textContent=[item.company,item.location].filter(Boolean).join(' • ')||'Application saved';
+       left.append(title,meta);
+       const status=document.createElement('div');status.className='status';status.textContent=item.status||'Applied';
+       row.append(left,status);list.appendChild(row);
+     });
+   }
+ }catch(e){}
+})();
+</script>
+</body>
+</html>

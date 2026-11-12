@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Post a Job | Your New Job Site</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#f4f7fb;color:#1f2937}.top{background:#fff;border-bottom:1px solid #dbe3ee;padding:18px 24px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}.brand{font-size:24px;font-weight:700;color:#1264d8}.btn{border:0;border-radius:8px;background:#1264d8;color:#fff;padding:11px 16px;font-weight:700;text-decoration:none;cursor:pointer}.btn:hover{background:#0d4fae}.hero{background:linear-gradient(135deg,#1059c7,#1685df);color:#fff;padding:34px 24px}.hero>div,.wrap{max-width:900px;margin:auto}.hero h1{margin:0 0 8px}.wrap{padding:28px 18px 90px}.card{background:#fff;border:1px solid #dfe6ef;border-radius:12px;padding:24px;box-shadow:0 3px 12px rgba(0,0,0,.05)}.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.field{margin-bottom:16px}.field.full{grid-column:1/-1}label{display:block;font-weight:700;margin-bottom:7px}input,select,textarea{width:100%;padding:11px;border:1px solid #cbd5e1;border-radius:7px;font:inherit;background:#fff}textarea{min-height:120px;resize:vertical}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}.secondary{background:#eaf2ff;color:#1264d8}.assistant-btn{position:fixed;right:20px;bottom:20px;z-index:10}.assistant{display:none;position:fixed;right:20px;bottom:78px;width:min(360px,calc(100% - 40px));background:#fff;border:1px solid #cfd9e7;border-radius:14px;box-shadow:0 12px 32px rgba(0,0,0,.18);z-index:9;overflow:hidden}.assistant.open{display:block}.assistant h2{margin:0;background:#1264d8;color:#fff;padding:16px;font-size:18px}.assistant .body{padding:16px;line-height:1.5}.assistant .tip{background:#f4f7fb;border-radius:8px;padding:12px;margin-top:10px;color:#475569}@media(max-width:650px){.grid{grid-template-columns:1fr}.field.full{grid-column:auto}.hero{padding:28px 18px}}
+</style>
+</head>
+<body>
+<header class="top"><div class="brand">Your New Job Site</div><a class="btn" href="employer-dashboard.html">Employer Dashboard</a></header>
+<section class="hero"><div><h1>Post a Job</h1><p>Create a clear job listing so qualified candidates can understand the opportunity.</p></div></section>
+<main class="wrap">
+<form class="card" id="jobForm">
+<div class="grid">
+<div class="field"><label for="title">Job Title</label><input id="title" required></div>
+<div class="field"><label for="company">Company Name</label><input id="company" required></div>
+<div class="field"><label for="location">Location</label><input id="location" placeholder="City, State or Remote"></div>
+<div class="field"><label for="type">Job Type</label><select id="type"><option>Full Time</option><option>Part Time</option><option>Contract</option><option>Temporary</option><option>Internship</option></select></div>
+<div class="field"><label for="pay">Pay / Salary</label><input id="pay" placeholder="Example: $22-$28 per hour"></div>
+<div class="field"><label for="schedule">Schedule</label><input id="schedule" placeholder="Example: Monday-Friday"></div>
+<div class="field full"><label for="description">Job Description</label><textarea id="description" required placeholder="Describe the position, responsibilities and day-to-day work."></textarea></div>
+<div class="field full"><label for="qualifications">Qualifications</label><textarea id="qualifications" placeholder="Skills, licenses, education or experience preferred."></textarea></div>
+<div class="field full"><label for="benefits">Benefits</label><textarea id="benefits" placeholder="Insurance, paid time off, retirement, training or other benefits."></textarea></div>
+<div class="field"><label for="contact">Contact Name</label><input id="contact"></div>
+<div class="field"><label for="email">Contact Email</label><input id="email" type="email"></div>
+</div>
+<div class="actions"><button class="btn" type="submit">Save Job Posting</button><button class="btn secondary" type="reset">Clear Form</button></div>
+<p id="status" aria-live="polite"></p>
+</form>
+</main>
+<button class="btn assistant-btn" id="assistantToggle" type="button" aria-expanded="false">Post a Job Assistant</button>
+<aside class="assistant" id="assistantPanel" aria-live="polite"><h2>Post a Job Assistant</h2><div class="body">I can help you make a job posting clearer and easier for candidates to understand.<div class="tip">Tip: Include the actual work location, job type, pay range when available, and the most important qualifications.</div></div></aside>
+<script>
+const toggle=document.getElementById('assistantToggle'),panel=document.getElementById('assistantPanel');toggle.addEventListener('click',()=>{const open=panel.classList.toggle('open');toggle.setAttribute('aria-expanded',String(open));});document.getElementById('jobForm').addEventListener('submit',e=>{e.preventDefault();document.getElementById('status').textContent='Job posting information is ready. Publishing will be connected during final site integration.';});
+</script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sign In | Your New Job Site</title>
+<style>
+:root{--blue:#1264d8;--dark:#0d3f88;--bg:#f4f7fb;--line:#dbe3ee;--text:#1f2937;--muted:#64748b}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text)}
+header{background:#fff;border-bottom:1px solid var(--line);padding:18px 24px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}.brand{font-size:24px;font-weight:800;color:var(--blue)}
+a.btn,button{border:0;border-radius:8px;background:var(--blue);color:#fff;padding:11px 16px;font-weight:700;text-decoration:none;cursor:pointer}a.btn:hover,button:hover{background:#0d4fae}.hero{background:linear-gradient(135deg,var(--dark),#1685df);color:white;text-align:center;padding:42px 18px}.hero h1{margin:0 0 10px;font-size:34px}.hero p{margin:0 auto;max-width:700px;line-height:1.5}.wrap{max-width:1050px;margin:28px auto;padding:0 18px 100px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:24px;box-shadow:0 4px 18px rgba(0,0,0,.05)}.card h2{margin-top:0;color:var(--dark)}label{display:block;font-weight:700;margin:14px 0 6px}input{width:100%;padding:12px;border:1px solid #bfc9d6;border-radius:8px;font-size:16px}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.link{color:var(--blue);font-weight:700;text-decoration:none}.small{color:var(--muted);font-size:14px;line-height:1.5}.create{margin-top:22px;text-align:center}.assistant-btn{position:fixed;right:20px;bottom:20px;z-index:20;box-shadow:0 6px 18px rgba(0,0,0,.22)}.assistant-panel{display:none;position:fixed;right:20px;bottom:76px;width:min(360px,calc(100% - 40px));background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:0 12px 35px rgba(0,0,0,.22);z-index:19}.assistant-panel.open{display:block}.assistant-panel h3{margin:0 0 8px;color:var(--dark)}
+@media(max-width:720px){.grid{grid-template-columns:1fr}.hero h1{font-size:28px}}
+</style>
+</head>
+<body>
+<header><div class="brand">Your New Job Site</div><a class="btn" href="yournewjobsite-homepage.html">Home</a></header>
+<section class="hero"><h1>Sign In</h1><p>Choose the account that matches how you use Your New Job Site.</p></section>
+<main class="wrap">
+<div class="grid">
+<section class="card"><h2>Job Seeker Sign In</h2><p class="small">Access your job search, applications, saved jobs, profile, messages, and resume tools.</p><form id="seekerForm"><label for="seekerEmail">Email</label><input id="seekerEmail" type="email" required autocomplete="email"><label for="seekerPassword">Password</label><input id="seekerPassword" type="password" required autocomplete="current-password"><div class="actions"><button type="submit">Sign In</button><a class="link" href="forgot-password.html">Forgot Password?</a></div></form><div class="create"><a class="btn" href="create-job-seeker-account.html">Create Job Seeker Account</a></div></section>
+<section class="card"><h2>Employer Sign In</h2><p class="small">Manage job postings, applicants, candidate searches, messages, and your company profile.</p><form id="employerForm"><label for="employerEmail">Email</label><input id="employerEmail" type="email" required autocomplete="email"><label for="employerPassword">Password</label><input id="employerPassword" type="password" required autocomplete="current-password"><div class="actions"><button type="submit">Sign In</button><a class="link" href="forgot-password.html">Forgot Password?</a></div></form><div class="create"><a class="btn" href="create-employer-account.html">Create Employer Account</a></div></section>
+</div>
+</main>
+<button class="assistant-btn" id="assistantBtn" type="button" aria-expanded="false" aria-controls="assistantPanel">Sign In Assistant</button>
+<aside class="assistant-panel" id="assistantPanel" aria-live="polite"><h3>Sign In Assistant</h3><p class="small">Job seekers use the left sign-in area. Employers use the right. If you do not have an account yet, choose the matching Create Account button.</p></aside>
+<script>
+const panel=document.getElementById('assistantPanel'),btn=document.getElementById('assistantBtn');btn.addEventListener('click',()=>{const open=panel.classList.toggle('open');btn.setAttribute('aria-expanded',String(open));});
+document.getElementById('seekerForm').addEventListener('submit',e=>{e.preventDefault();location.href='job-seeker-dashboard.html';});
+document.getElementById('employerForm').addEventListener('submit',e=>{e.preventDefault();location.href='employer-dashboard.html';});
+</script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Job Search | Your New Job Site</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f4f7fb;color:#1f2937}.top{background:#fff;border-bottom:1px solid #dbe3ee;padding:18px 28px;display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap}.brand{font-size:25px;font-weight:700;color:#1264d8}.btn{display:inline-block;background:#1264d8;color:#fff;text-decoration:none;border:0;border-radius:8px;padding:11px 17px;font-weight:700;cursor:pointer}.btn:hover{background:#0d4fae}.hero{background:linear-gradient(135deg,#1059c7,#1685df);color:#fff;padding:38px 20px}.hero>div,.wrap{max-width:1100px;margin:auto}.hero h1{margin:0 0 8px;font-size:34px}.hero p{margin:0;line-height:1.5}.wrap{padding:25px 18px 45px}.searchbox,.job{background:#fff;border:1px solid #dfe6ef;border-radius:12px;box-shadow:0 3px 12px rgba(0,0,0,.05)}.searchbox{padding:20px;margin-bottom:22px}.grid{display:grid;grid-template-columns:2fr 1.5fr auto;gap:12px}.field label{display:block;font-size:13px;font-weight:700;margin-bottom:6px}.field input{width:100%;padding:12px;border:1px solid #cbd5e1;border-radius:7px;font-size:15px}.searchbtn{align-self:end;height:43px}.count{font-size:14px;color:#64748b;margin:0 0 12px}.jobs{display:grid;gap:15px}.job{padding:20px}.job h2{margin:0 0 6px;color:#1264d8;font-size:20px}.company{font-weight:700;margin-bottom:8px}.meta{color:#64748b;font-size:14px;margin-bottom:12px}.job p{line-height:1.5;margin:0 0 15px}.actions{display:flex;gap:10px;flex-wrap:wrap}.secondary{background:#eaf2ff;color:#1264d8}.empty{display:none;text-align:center;background:#fff;padding:32px;border-radius:12px;border:1px solid #dfe6ef;color:#64748b}@media(max-width:700px){.grid{grid-template-columns:1fr}.searchbtn{width:100%}.hero h1{font-size:28px}}
+</style>
+</head>
+<body>
+<header class="top"><div class="brand">Your New Job Site</div><a class="btn" href="job-seeker-dashboard.html">Job Seeker Dashboard</a></header>
+<section class="hero"><div><h1>Find Your Next Job</h1><p>Search available opportunities by job title, keyword, company, or location.</p></div></section>
+<main class="wrap">
+<section class="searchbox">
+<form id="searchForm" class="grid">
+<div class="field"><label for="keyword">Job title, keyword, or company</label><input id="keyword" type="text" placeholder="Example: Project Manager"></div>
+<div class="field"><label for="location">Location</label><input id="location" type="text" placeholder="City, state, or remote"></div>
+<button class="btn searchbtn" type="submit">Search Jobs</button>
+</form>
+</section>
+<p class="count" id="count" aria-live="polite"></p>
+<section class="jobs" id="jobs"></section>
+<div class="empty" id="empty">No jobs match your search. Try a different keyword or location.</div>
+</main>
+<script>
+const jobs=[
+{title:'Construction Project Manager',company:'Sample Construction Company',location:'Tampa, FL',type:'Full Time',description:'Coordinate project schedules, field activities, contractors, and customer communication.'},
+{title:'Office Administrator',company:'Sample Business Services',location:'Brandon, FL',type:'Full Time',description:'Support daily office operations, customer records, scheduling, and general administrative work.'},
+{title:'Service Technician',company:'Sample Service Company',location:'Sun City Center, FL',type:'Full Time',description:'Perform scheduled customer service visits, document completed work, and communicate service needs.'}
+];
+const list=document.getElementById('jobs'),count=document.getElementById('count'),empty=document.getElementById('empty');
+function render(items){list.innerHTML='';items.forEach((j,i)=>{const card=document.createElement('article');card.className='job';card.innerHTML=`<h2>${j.title}</h2><div class="company">${j.company}</div><div class="meta">${j.location} • ${j.type}</div><p>${j.description}</p><div class="actions"><button type="button" class="btn" data-apply="${i}">View / Apply</button><button type="button" class="btn secondary" data-save="${i}">Save Job</button></div>`;list.appendChild(card)});count.textContent=items.length+' job'+(items.length===1?'':'s')+' found';empty.style.display=items.length?'none':'block'}
+render(jobs);
+document.getElementById('searchForm').addEventListener('submit',e=>{e.preventDefault();const k=document.getElementById('keyword').value.trim().toLowerCase(),l=document.getElementById('location').value.trim().toLowerCase();render(jobs.filter(j=>(!k||(j.title+' '+j.company+' '+j.description).toLowerCase().includes(k))&&(!l||j.location.toLowerCase().includes(l))))});
+list.addEventListener('click',e=>{if(e.target.dataset.save!==undefined){e.target.textContent='Saved';e.target.disabled=true}else if(e.target.dataset.apply!==undefined){alert('The job-detail/application page will connect here next.')}});
+</script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Saved Jobs | Your New Job Site</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f4f7fb;color:#1f2937}.topbar{background:#fff;border-bottom:1px solid #dbe3ee;padding:18px 28px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}.brand{font-size:24px;font-weight:700;color:#1264d8}.btn{border:0;background:#1264d8;color:#fff;padding:11px 17px;border-radius:8px;text-decoration:none;font-weight:700;cursor:pointer}.hero{background:linear-gradient(135deg,#1059c7,#1685df);color:#fff;padding:38px 24px}.hero-inner,.container{max-width:1100px;margin:auto}.hero h1{margin:0 0 8px}.container{padding:28px 18px 90px}.job{background:#fff;border:1px solid #dfe6ef;border-radius:12px;padding:22px;margin-bottom:16px;box-shadow:0 3px 12px rgba(0,0,0,.05)}.job h2{margin:0 0 8px}.muted{color:#64748b}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}.empty{background:#fff;border:1px solid #dfe6ef;border-radius:12px;padding:28px;text-align:center}.assistant-btn{position:fixed;right:20px;bottom:20px;z-index:20}.assistant-panel{display:none;position:fixed;right:20px;bottom:78px;width:min(360px,calc(100% - 40px));background:#fff;border:1px solid #d8e1ec;border-radius:14px;box-shadow:0 12px 35px rgba(0,0,0,.18);padding:20px;z-index:19}.assistant-panel.open{display:block}.assistant-panel h3{margin:0 0 10px;color:#1264d8}.assistant-panel p{margin:0 0 12px;line-height:1.45}.assistant-panel input{width:100%;padding:11px;border:1px solid #cbd5e1;border-radius:8px}.answer{margin-top:10px;color:#475569;font-size:14px}@media(max-width:600px){.topbar{padding:15px}.hero{padding:30px 18px}}
+</style>
+</head>
+<body>
+<header class="topbar"><div class="brand">Your New Job Site</div><a class="btn" href="job-seeker-dashboard.html">Job Seeker Dashboard</a></header>
+<section class="hero"><div class="hero-inner"><h1>Saved Jobs</h1><p>Keep interesting opportunities together so you can review and apply when ready.</p></div></section>
+<main class="container">
+<div id="savedJobs"></div>
+</main>
+<button class="btn assistant-btn" id="assistantToggle" type="button" aria-expanded="false">Saved Jobs Assistant</button>
+<section class="assistant-panel" id="assistantPanel" aria-live="polite">
+<h3>Saved Jobs Assistant</h3>
+<p>I can help you decide what to review next or explain how this page is organized.</p>
+<label for="assistantQuestion"><strong>Ask a question</strong></label>
+<input id="assistantQuestion" placeholder="Example: What should I compare first?">
+<div class="answer" id="assistantAnswer">Type a question and press Enter.</div>
+</section>
+<script>
+(function(){
+ const list=document.getElementById('savedJobs');
+ let jobs=[];
+ try{jobs=JSON.parse(localStorage.getItem('ynjsSavedJobs')||'[]');if(!Array.isArray(jobs))jobs=[];}catch(e){jobs=[];}
+ function render(){
+  if(!jobs.length){list.innerHTML='<div class="empty"><h2>No saved jobs yet</h2><p class="muted">Jobs you save will appear here.</p><a class="btn" href="job-search.html">Search Jobs</a></div>';return;}
+  list.innerHTML='';
+  jobs.forEach(function(job,i){
+   const card=document.createElement('article');card.className='job';
+   const title=document.createElement('h2');title.textContent=job.title||'Saved Job';
+   const company=document.createElement('div');company.className='muted';company.textContent=[job.company,job.location].filter(Boolean).join(' • ');
+   const actions=document.createElement('div');actions.className='actions';
+   const view=document.createElement('a');view.className='btn';view.href=job.url||'job-details.html';view.textContent='View Job';
+   const remove=document.createElement('button');remove.className='btn';remove.type='button';remove.textContent='Remove';remove.addEventListener('click',function(){jobs.splice(i,1);localStorage.setItem('ynjsSavedJobs',JSON.stringify(jobs));render();});
+   actions.append(view,remove);card.append(title,company,actions);list.appendChild(card);
+  });
+ }
+ render();
+ const toggle=document.getElementById('assistantToggle'),panel=document.getElementById('assistantPanel'),input=document.getElementById('assistantQuestion'),answer=document.getElementById('assistantAnswer');
+ toggle.addEventListener('click',function(){const open=panel.classList.toggle('open');toggle.setAttribute('aria-expanded',String(open));if(open)input.focus();});
+ input.addEventListener('keydown',function(e){if(e.key==='Enter'){const q=input.value.trim();answer.textContent=q?'Start by comparing job duties, location, pay, qualifications, and application deadlines for your saved jobs.':'Type a question and press Enter.';}});
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Post a Job | Your New Job Site</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f4f7fb;color:#1f2937}.topbar{background:#fff;border-bottom:1px solid #dbe3ee;padding:18px 30px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}.brand{font-size:25px;font-weight:700;color:#1264d8}.actions{display:flex;gap:10px;flex-wrap:wrap}.btn{border:0;background:#1264d8;color:#fff;text-decoration:none;padding:11px 18px;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer}.btn:hover{background:#0d4fae}.btn-light{background:#eaf2ff;color:#1264d8}.hero{background:linear-gradient(135deg,#1059c7,#1685df);color:#fff;padding:38px 30px}.hero-inner,.container{max-width:1000px;margin:auto}.hero h1{margin:0 0 8px;font-size:34px}.hero p{margin:0;line-height:1.5}.container{padding:28px 20px 50px}.card{background:#fff;border:1px solid #dfe6ef;border-radius:12px;padding:26px;box-shadow:0 3px 12px rgba(0,0,0,.05)}.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.field{display:flex;flex-direction:column;gap:7px}.field.full{grid-column:1/-1}label{font-weight:700;font-size:14px}input,select,textarea{width:100%;font:inherit;padding:12px;border:1px solid #cbd5e1;border-radius:8px;background:#fff;color:#1f2937}textarea{min-height:125px;resize:vertical}.form-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:22px;flex-wrap:wrap}.notice{margin-top:18px;padding:12px 14px;border-radius:8px;background:#e8f6ee;color:#176b43;display:none}.muted{color:#64748b;font-size:13px;margin-top:15px}footer{text-align:center;padding:22px;color:#64748b;font-size:13px}@media(max-width:650px){.topbar{padding:16px}.hero{padding:30px 20px}.hero h1{font-size:28px}.grid{grid-template-columns:1fr}.field.full{grid-column:auto}.form-actions .btn{flex:1;text-align:center}}
+</style>
+</head>
+<body>
+<header class="topbar">
+<div class="brand">Your New Job Site</div>
+<div class="actions">
+<a class="btn btn-light" href="employer-dashboard.html">Employer Dashboard</a>
+<a class="btn btn-light" href="yournewjobsite-homepage.html">Home</a>
+</div>
+</header>
+<section class="hero"><div class="hero-inner"><h1>Post a Job</h1><p>Create a job opening and save it for your employer account.</p></div></section>
+<main class="container">
+<div class="card">
+<form id="jobForm">
+<div class="grid">
+<div class="field"><label for="jobTitle">Job Title</label><input id="jobTitle" required placeholder="Example: Construction Supervisor"></div>
+<div class="field"><label for="company">Company Name</label><input id="company" required placeholder="Company name"></div>
+<div class="field"><label for="location">Job Location</label><input id="location" required placeholder="City, State"></div>
+<div class="field"><label for="jobType">Job Type</label><select id="jobType" required><option value="">Select Job Type</option><option>Full Time</option><option>Part Time</option><option>Contract</option><option>Temporary</option><option>Internship / Training</option></select></div>
+<div class="field"><label for="pay">Pay / Salary</label><input id="pay" placeholder="Example: $25-$32/hour"></div>
+<div class="field"><label for="schedule">Schedule</label><input id="schedule" placeholder="Example: Monday-Friday"></div>
+<div class="field full"><label for="description">Job Description</label><textarea id="description" required placeholder="Describe the position and the work involved."></textarea></div>
+<div class="field full"><label for="qualifications">Qualifications</label><textarea id="qualifications" placeholder="Skills, experience, licenses, education, or other requirements."></textarea></div>
+<div class="field full"><label for="benefits">Benefits</label><textarea id="benefits" placeholder="Health insurance, paid time off, retirement, training, or other benefits."></textarea></div>
+<div class="field"><label for="contactName">Hiring Contact</label><input id="contactName" placeholder="Contact name"></div>
+<div class="field"><label for="contactEmail">Contact Email</label><input id="contactEmail" type="email" placeholder="name@company.com"></div>
+<div class="field full"><label for="applyInstructions">Application Instructions</label><textarea id="applyInstructions" placeholder="Tell applicants how to apply or what information to provide."></textarea></div>
+</div>
+<div class="form-actions"><button type="button" class="btn btn-light" id="clearBtn">Clear Form</button><button type="submit" class="btn">Save Job Posting</button></div>
+<div class="notice" id="notice" aria-live="polite">Job posting saved on this device.</div>
+<p class="muted">This version saves job postings locally in the browser so we can connect the listing page next without losing the form work.</p>
+</form>
+</div>
+</main>
+<footer>Your New Job Site • Employer Center</footer>
+<script>
+(function(){
+ const form=document.getElementById('jobForm'), notice=document.getElementById('notice');
+ const ids=['jobTitle','company','location','jobType','pay','schedule','description','qualifications','benefits','contactName','contactEmail','applyInstructions'];
+ form.addEventListener('submit',function(e){e.preventDefault();if(!form.reportValidity())return;const job={id:Date.now(),createdAt:new Date().toISOString()};ids.forEach(id=>job[id]=document.getElementById(id).value.trim());let jobs=[];try{jobs=JSON.parse(localStorage.getItem('ynjsEmployerJobs')||'[]');if(!Array.isArray(jobs))jobs=[]}catch(e){jobs=[]}jobs.push(job);localStorage.setItem('ynjsEmployerJobs',JSON.stringify(jobs));notice.style.display='block';notice.textContent='Job posting saved. It is ready for the My Job Listings page.';window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});});
+ document.getElementById('clearBtn').addEventListener('click',function(){form.reset();notice.style.display='none'});
+})();
+</script>
+</body>
+</html>
